@@ -1,6 +1,7 @@
 [build-system]
 requires = [
     "pandas",
+    "setuptools",
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
