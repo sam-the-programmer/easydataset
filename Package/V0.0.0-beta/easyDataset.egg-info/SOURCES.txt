@@ -1,0 +1,7 @@
+README.md
+setup.py
+easyDataset.egg-info/PKG-INFO
+easyDataset.egg-info/SOURCES.txt
+easyDataset.egg-info/dependency_links.txt
+easyDataset.egg-info/requires.txt
+easyDataset.egg-info/top_level.txt

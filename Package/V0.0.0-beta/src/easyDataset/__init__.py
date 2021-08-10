@@ -1,19 +1,40 @@
-import pandas as pd
+import csv
 import sqlite3 as sql
+import warnings
 
+import pandas as pd
 from pandas.core.series import Series
 
-class PandaSQL(object):
+
+class PandaTable(object):
     
-    def __init__(self, filename: str) -> None:
+    def __init__(self, table: str, filename: str, always_save = False) -> None:
         """
         PandaSQL is an object class for reading
         and writing to SQL with Pandas. It is presently
         not implemented fully. Please use an SQLite
         object or easySQL object."""
-        raise NotImplemented("PandaSQL is presently not implemented fully. Please use an SQLite object or easySQL object.")
+        warnings.warn(UserWarning("This is a very new beta class. Please report any issues to the github repository."))
         self._filename = filename
-        self._dataframe = pd.read_sql(filename)
+        self._alwaysSave = always_save
+        self._dataframe = pd.read_sql(table, filename)
+    
+    def get_item(self, column: str or int, row: str or int) -> str:
+        if type(column) == str:
+            column = self._dataframe.columns.index(column)
+        if type(row) == str:
+            row = self._dataframe.columns.index(row)
+            
+        return str(self._dataframe.iloc()[column].iloc()[row])
+    
+    def set_item(self, column: str or int, row: str or int):
+        if type(column) == str:
+            column = self._dataframe.columns.index(column)
+        if type(row) == str:
+            row = self._dataframe.columns.index(row)
+            
+        if self._alwaysSave: self.save()
+        return 
     
     def insert_column(self, column: int, name: str, value: list or tuple or Series) -> None:
         if column < 0: raise ValueError("Column index must be <= 0.")
@@ -21,8 +42,9 @@ class PandaSQL(object):
         elif len(value) != len(self._dataframe.iloc(axis=1)[0]): raise ValueError("Value for new column must be of equal length to other columns.")
         
         self._dataframe.insert(column, name, value)
+        if self._alwaysSave: self.save()
         
-    def save(self):
+    def save(self) -> None:
         self._dataframe.to_sql(self._filename)
         
 class SQLite(object):
@@ -121,6 +143,23 @@ class easySQL(object):
         self.commit()
         return fetched
             
+class easyCSV(object):
+    def __init__(self, filename: str) -> None:
+        """A simplified version of the csv module's csv.reader()."""
+        self._filename = filename
+        with open(filename) as file:
+            self._raw = csv.reader(file.readlines())
+    
+    def get_item(self, column: int, row: int) -> any:
+        return self._raw[column][row]
+    
+    def set_item(self, column: int, row: int, value: any) -> None:
+        self._raw[column][row] = value
+            
+    def save(self):
+        with open(self._filename, 'w') as file:
+            file.write(csv.writer(self._raw))
+
 if __name__ == "__main__":
     with SQLite("names.db") as database:
         database.clear("names")

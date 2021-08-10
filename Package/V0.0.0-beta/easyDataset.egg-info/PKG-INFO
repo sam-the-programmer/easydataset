@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: easyDataset
+Version: 0.0.1b0
+Summary: Database interaction
+Home-page: UNKNOWN
+Author: Password-Classified
+Author-email: user@example.com
+License: UNKNOWN
+Description: 
+        
+        A Python module to make interacting with SQL databases easier and faster, a wrapper for other alternatives.
+        
+        
+Keywords: python,sql,database,databases,data science,machine learning,easy
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Description-Content-Type: text/markdown
