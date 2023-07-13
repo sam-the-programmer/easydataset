@@ -72,12 +72,12 @@ class SQLite(object):
     
     def create_table(self, name, rules: str):
         """Create a new table, with all rules, including indexing primary key."""
-        self._cursor.execute(f"CREATE TABLE IF NOT EXISTS {name}({str(rules)})")
+        self._cursor.execute(f"CREATE TABLE IF NOT EXISTS {name}({rules})")
         self.commit()
         
     def insert(self, name, values: tuple):
         """Insert a value at the specified location."""
-        self._cursor.execute(f"INSERT INTO {name} VALUES{str(values)}")
+        self._cursor.execute(f"INSERT INTO {name} VALUES{values}")
         self.commit()
         
     def clear(self, name):
@@ -118,7 +118,9 @@ class easySQL(object):
     
     def create_table(self, name, rules: str):
         """Create a table with indexing automatically done for you."""
-        self._cursor.execute(f"CREATE TABLE IF NOT EXISTS {name}(id integer PRIMARY KEY{str(rules)})")
+        self._cursor.execute(
+            f"CREATE TABLE IF NOT EXISTS {name}(id integer PRIMARY KEY{rules})"
+        )
         self.commit()
         
     def insert(self, name, index, values: tuple):
